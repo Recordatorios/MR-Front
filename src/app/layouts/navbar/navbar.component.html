@@ -1,0 +1,10 @@
+<nav class="navbar">
+    <div class="logo">
+        <img src="../../../assets/logo.png" alt="Logo">
+    </div>
+    <div class="buttons">
+        @if (authService.isLoggedIn()) {
+        <button (click)="logout()">Cerrar Sesión</button>
+        }
+    </div>
+</nav>

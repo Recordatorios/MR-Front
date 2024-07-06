@@ -1,0 +1,31 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 40px;
+  background-color: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  height: 45px;
+  width: 200px;
+}
+
+button {
+  font-size: 20px;
+  padding-block: 5px;
+  padding-inline: 15px;
+  cursor: pointer;
+  background-color: #003366;
+  border: none;
+  border-radius: 20px;
+  color: white;
+}
+
+button:hover {
+  transition: 0.3s;
+  transform: scale(1.2);
+}

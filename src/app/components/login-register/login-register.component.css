@@ -1,0 +1,153 @@
+.body {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-items: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+section {
+  display: grid;
+  justify-items: center;
+}
+
+.menu-login {
+  border-radius: 20px;
+  border-color: white;
+}
+
+.llenar {
+  font-size: 20px;
+}
+
+h1 {
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+input {
+  margin: 10px;
+  width: 300px;
+  height: 30px;
+  font-size: 20px;
+}
+
+button {
+  background-color: #003366;
+  color: white;
+  border-radius: 50px;
+  border: none;
+  font-size: 25px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+}
+
+button:hover {
+  transform: scale(1.2);
+  transition: 0.3s;
+}
+
+.forgotpsw {
+  margin: 10px;
+}
+
+.forgotpsw a {
+  color: black;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.forgotpsw a:hover {
+  color: #d03733;
+  transition: 0.3s;
+}
+
+.buttonmenu {
+  display: grid;
+  justify-items: center;
+}
+
+.invalid {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-bottom: -5px;
+}
+
+/* Media Queries */
+@media only screen and (min-width: 2560px) {
+  .body {
+    grid-template-columns: 1fr 1fr;
+    padding: 40px;
+  }
+
+  input {
+    width: 400px;
+    height: 40px;
+    font-size: 24px;
+  }
+
+  button {
+    font-size: 30px;
+    padding: 15px 30px;
+  }
+
+  .forgotpsw a {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .body {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  input {
+    width: 250px;
+    height: 25px;
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 10px 15px;
+  }
+
+  .forgotpsw a {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .body {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  input {
+    width: 200px;
+    height: 25px;
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+
+  .forgotpsw a {
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-left: 5px;
+  }
+}
