@@ -20,6 +20,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginRegisterComponent {
   registerForm: FormGroup;
   loginForm: FormGroup;
+  loginErrorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -65,6 +66,7 @@ export class LoginRegisterComponent {
         (response) => {
           if (response && response.id) {
             alert('User registered successfully');
+            this.resetForms();
             this.router
               .navigate([''])
               .catch((err) => console.error('Navigation error:', err));
@@ -94,14 +96,21 @@ export class LoginRegisterComponent {
           this.router
             .navigate(['home'])
             .catch((err) => console.error('Navigation error:', err));
+          this.loginErrorMessage = '';
         },
         (error) => {
           console.error('Error logging in', error);
+          this.loginErrorMessage = 'Correo o contraseña incorrectos, por favor intente nuevamente'
         }
       );
     } else {
       console.log('Form is invalid', this.loginForm.errors);
     }
+  }
+
+  resetForms(): void {
+    this.registerForm.reset();
+    this.loginForm.reset();
   }
 
   isInvalid(controlName: string, form: FormGroup): boolean {
