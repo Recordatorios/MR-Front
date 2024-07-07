@@ -148,16 +148,22 @@ export class HomeComponent implements OnInit {
 
   getDebtClass(debt: Deuda): string {
     const today = new Date();
+    today.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
     const dueDate = new Date(debt.fechaVencimiento);
+    dueDate.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
+
+    const oneWeekAhead = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     if (debt.estado === 'pagada') {
       return 'deuda-pagada';
-    } else if (dueDate < today) {
+    } else if (debt.estado === 'vencida') {
       return 'deuda-vencida';
-    } else if (dueDate >= today && dueDate <= new Date(today.setDate(today.getDate() + 7))) {
-      return 'deuda-semana';
-    } else {
+    } else if (debt.estado === 'proxima') {
       return 'deuda-proxima';
+    } else if (debt.estado === 'pendiente') {
+      return 'deuda-pendiente';
+    } else {
+      return '';
     }
   }
 
