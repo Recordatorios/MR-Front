@@ -103,14 +103,16 @@ select {
   color: white;
 }
 
-.deuda-semana {
+.deuda-proxima {
   background-color: yellow;
+  color: black;
 }
 
-.deuda-proxima {
+.deuda-pendiente {
   background-color: black;
   color: white;
 }
+
 
 .centered-table {
   width: 100%;
@@ -145,13 +147,13 @@ select {
   text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
 }
 
-.centered-table td.deuda-semana {
+.centered-table td.deuda-proxima {
   color: yellow;
   background-color: white;
   text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
 }
 
-.centered-table td.deuda-proxima {
+.centered-table td.deuda-pendiente {
   color: black;
   background-color: white;
   text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;

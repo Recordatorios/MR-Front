@@ -4,5 +4,5 @@ export interface Deuda {
   empresa: string;
   montoTotal: number;
   fechaVencimiento: string;
-  estado: | 'proxima' | 'pendiente' | 'pagada' | 'vencida';
+  estado: 'proxima' | 'pendiente' | 'pagada' | 'vencida';
 }

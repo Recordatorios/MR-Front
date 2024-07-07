@@ -26,6 +26,11 @@
       <input type="text" id="estado" [(ngModel)]="newDebt.estado" name="estado" readonly>
     </div>
 
+    <!-- Mostrar mensaje de error si existe -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <div class="form-group">
       <button type="submit">Registrar</button>
       <button type="button" (click)="cancel()">Cancelar</button>

@@ -23,6 +23,7 @@ export class AuthService {
     }
     return false;
   }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -43,6 +44,10 @@ export class AuthService {
 
   getDebtsByMonthAndYear(month: number, year: number): Observable<any> {
     return this.http.get(`${baserUrl}/api/deudas/month/${month}/year/${year}`, this.getHeaders());
+  }
+
+  searchDebtsByNumeroDocumento(numeroDocumento: string): Observable<any> {
+    return this.http.get(`${baserUrl}/api/deudas/search?numeroDocumento=${numeroDocumento}`, this.getHeaders());
   }
 
   markAsPaid(debtId: number): Observable<void> {
