@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   currentYear: number;
   filtroEstado: string = 'Todos';
   searchTerm: string = '';
+  errorMessage: string = ''; // Nueva propiedad para el mensaje de error
 
   constructor(private dialog: MatDialog, private authService: AuthService) {
     const date = new Date();
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadDebts();
   }
+
   loadDebts() {
     this.debts = [];  // Limpiar la lista de deudas antes de cargar las nuevas
     this.filteredDebts = [];  // Limpiar la lista de deudas filtradas
@@ -57,26 +59,12 @@ export class HomeComponent implements OnInit {
 
   applyFilter() {
     const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    today.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
 
     let filtered = this.debts;
 
     if (this.filtroEstado !== 'Todos') {
-      if (this.filtroEstado === 'pendiente') {
-        filtered = filtered.filter(debt => debt.estado === 'pendiente' && new Date(debt.fechaVencimiento) > endOfWeek);
-      } else if (this.filtroEstado === 'pagada') {
-        filtered = filtered.filter(debt => debt.estado === 'pagada');
-      } else if (this.filtroEstado === 'vencida') {
-        filtered = filtered.filter(debt => new Date(debt.fechaVencimiento) < today && debt.estado !== 'pagada');
-      } else if (this.filtroEstado === 'proxima') {
-        filtered = filtered.filter(debt => {
-          const dueDate = new Date(debt.fechaVencimiento);
-          return dueDate >= startOfWeek && dueDate <= endOfWeek && debt.estado !== 'pagada';
-        });
-      }
+      filtered = this.debts.filter(debt => debt.estado === this.filtroEstado);
     }
 
     if (this.searchTerm) {
@@ -86,8 +74,14 @@ export class HomeComponent implements OnInit {
     this.filteredDebts = filtered.sort((a, b) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
     this.totalPages = Math.ceil(this.filteredDebts.length / this.pageSize);
     this.setPage(this.currentPage); // Mantener la página actual al aplicar el filtro
-  }
 
+    // Mostrar mensaje de error si no se encuentran deudas
+    if (this.filteredDebts.length === 0) {
+      this.errorMessage = 'No se encontraron deudas que cumplan con el filtro.';
+    } else {
+      this.errorMessage = '';
+    }
+  }
 
   setPage(page: number) {
     if (page < 1 || page > this.totalPages) return;
@@ -104,19 +98,18 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const foundDebt = this.debts.find(debt => debt.numeroDocumento === this.searchTerm);
-    if (foundDebt) {
-      const dueDate = new Date(foundDebt.fechaVencimiento);
-      this.currentMonth = dueDate.getMonth() + 1; // Cambiar al mes de la deuda encontrada
-      this.currentYear = dueDate.getFullYear(); // Cambiar al año de la deuda encontrada
-      this.loadDebts();
-      this.setPage(1);
-    } else {
+    this.authService.searchDebtsByNumeroDocumento(this.searchTerm).subscribe(response => {
+      this.debts = response;
+      this.applyFilter();
+    }, error => {
+      console.error('Error fetching debts by document number', error);
       alert('No se encontró ninguna deuda con ese número de documento.');
       this.searchTerm = ''; // Clear the search term
       this.loadDebts(); // Reload debts for the current month and year
-    }
+    });
   }
+
+
 
   formatCurrency(amount: number): string {
     return `S/ ${amount.toFixed(2)}`;
@@ -151,8 +144,6 @@ export class HomeComponent implements OnInit {
     today.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
     const dueDate = new Date(debt.fechaVencimiento);
     dueDate.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
-
-    const oneWeekAhead = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     if (debt.estado === 'pagada') {
       return 'deuda-pagada';

@@ -62,14 +62,12 @@
         <span>Página {{ currentPage }} de {{ totalPages }}</span>
         <button (click)="setPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
       </div>
-
     </div>
 
     <ng-template #noDebts>
       <div class="no-debts-container">
-        <p>Sin deudas este mes.</p>
-        <img src="../../../assets/sindeuda.png" alt="Sin deudas" class="no-debts-image">
-        <p>Prueba ingresando una.</p>
+        <p>{{ errorMessage }}</p>
+        <img src="../../../assets/sindeuda.png" alt="Sin deudas" class="no-debts-image" *ngIf="errorMessage">
       </div>
     </ng-template>
 
@@ -77,10 +75,10 @@
       <h3></h3>
       <ul>
         <li>Estados:</li>
-        <li class="highlight deuda-proxima">Próxima</li> <!-- Ajustado a 'próxima' -->
+        <li class="highlight deuda-proxima">Próxima</li>
         <li class="highlight deuda-vencida">Vencidas</li>
         <li class="highlight deuda-pagada">Pagadas</li>
-        <li class="highlight deuda-pendiente">Pendiente</li> <!-- Ajustado a 'pendiente' -->
+        <li class="highlight deuda-pendiente">Pendiente</li>
       </ul>
     </section>
   </section>
