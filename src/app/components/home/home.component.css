@@ -1,0 +1,61 @@
+.body {
+  display: grid;
+}
+
+.filtrofechas {
+  display: grid;
+  justify-items: center;
+}
+
+.filtrofechas button,
+.registro button {
+  background-color: #003366;
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-inline: 15px;
+}
+
+button:hover {
+  transition: 0.3s;
+  transform: scale(1.2);
+}
+
+select{
+    font-size: 20px;
+    border-color: #003366;
+}
+
+.year,
+.month {
+  display: flex;
+  margin-block: 15px;
+}
+
+.enlistado {
+  display: grid;
+  justify-items: center;
+}
+
+.opciones {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+table {
+  width: 50%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 20px;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 12px;
+  border: 2px solid #000000;
+}
