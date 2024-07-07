@@ -1,61 +1,226 @@
 .body {
-  display: grid;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .filtrofechas {
-  display: grid;
-  justify-items: center;
-}
-
-.filtrofechas button,
-.registro button {
-  background-color: #003366;
-  color: white;
-  border-radius: 50px;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-inline: 15px;
-}
-
-button:hover {
-  transition: 0.3s;
-  transform: scale(1.2);
-}
-
-select{
-    font-size: 20px;
-    border-color: #003366;
-}
-
-.year,
-.month {
   display: flex;
-  margin-block: 15px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.enlistado {
-  display: grid;
-  justify-items: center;
+
+.s-date {
+  font-size: 1.5em;
+  margin: 0 15px;
 }
 
 .opciones {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  width: 50%;
+  margin-bottom: 20px;
 }
 
-table {
-  width: 50%;
+.filtro {
+  display: flex;
+  flex-direction: column;
+
+}
+
+button {
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0055a5;
+}
+
+button:focus {
+  outline: none;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.leyenda {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.leyenda h3 {
+  margin-bottom: 10px;
+}
+
+.leyenda ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.leyenda li {
+  margin: 0 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.highlight {
+  color: black;
+  padding: 3px;
+  display: inline-block;
+}
+
+.deuda-pagada {
+  background-color: green;
+  color: white;
+}
+
+.deuda-vencida {
+  background-color: red;
+  color: white;
+}
+
+.deuda-semana {
+  background-color: yellow;
+}
+
+.deuda-proxima {
+  background-color: black;
+  color: white;
+}
+
+.centered-table {
+  width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 20px;
-  text-align: left;
+  margin-top: 40px;
 }
 
-th,
-td {
-  padding: 12px;
-  border: 2px solid #000000;
+.centered-table th, .centered-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.centered-table th {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+}
+
+.centered-table td {
+  text-align: center;
+}
+
+.centered-table td.deuda-pagada {
+  color: green;
+  background-color: white;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+}
+
+.centered-table td.deuda-vencida {
+  color: red;
+  background-color: white;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+}
+
+.centered-table td.deuda-semana {
+  color: yellow;
+  background-color: white;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+}
+
+.centered-table td.deuda-proxima {
+  color: black;
+  background-color: white;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+}
+
+.modal-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button.mat-raised-button {
+  margin-right: 10px;
+}
+
+.icon-pagar, .icon-pagado {
+  width: 24px; /* Tamaño del icono */
+  height: 24px;
+}
+
+.icon-pagar {
+  cursor: pointer; /* Tipo de cursor pointer */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Espaciado con respecto al cuadro de filtro */
+}
+
+.search-container input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.search-container button {
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+  background-color: #0055a5;
+}
+
+.search-container button:focus {
+  outline: none;
 }

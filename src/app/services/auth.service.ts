@@ -1,6 +1,5 @@
-
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import baserUrl from './helper';
 
@@ -24,10 +23,37 @@ export class AuthService {
     }
     return false;
   }
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
 
   logout(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.removeItem('token');
     }
+  }
+
+  registerDebt(debt: any): Observable<any> {
+    return this.http.post(`${baserUrl}/api/deudas`, debt, this.getHeaders());
+  }
+
+  registerSchedule(schedule: any): Observable<any> {
+    return this.http.post(`${baserUrl}/api/cronogramas-pago`, schedule, this.getHeaders());
+  }
+
+  getDebtsByMonthAndYear(month: number, year: number): Observable<any> {
+    return this.http.get(`${baserUrl}/api/deudas/month/${month}/year/${year}`, this.getHeaders());
+  }
+
+  markAsPaid(debtId: number): Observable<void> {
+    return this.http.patch<void>(`${baserUrl}/api/deudas/${debtId}/mark-as-paid`, {}, this.getHeaders());
+  }
+
+  private getHeaders() {
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
   }
 }

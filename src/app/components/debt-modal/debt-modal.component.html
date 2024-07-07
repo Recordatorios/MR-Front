@@ -1,0 +1,34 @@
+<div class="modal-container">
+  <h2>Registrar Deuda</h2>
+  <form (ngSubmit)="registerDebt()">
+    <div class="form-group">
+      <label for="documento">N° de documento:</label>
+      <input type="text" id="documento" [(ngModel)]="newDebt.numeroDocumento" name="documento">
+    </div>
+
+    <div class="form-group">
+      <label for="empresa">Empresa:</label>
+      <input type="text" id="empresa" [(ngModel)]="newDebt.empresa" name="empresa">
+    </div>
+
+    <div class="form-group">
+      <label for="monto">Monto:</label>
+      <input type="number" id="monto" [(ngModel)]="newDebt.montoTotal" name="monto" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label for="fechaVencimiento">Fecha de vencimiento:</label>
+      <input type="date" id="fechaVencimiento" [(ngModel)]="newDebt.fechaVencimiento" name="fechaVencimiento">
+    </div>
+
+    <div class="form-group">
+      <label for="estado">Estado:</label>
+      <input type="text" id="estado" [(ngModel)]="newDebt.estado" name="estado" readonly>
+    </div>
+
+    <div class="form-group">
+      <button type="submit">Registrar</button>
+      <button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+</div>

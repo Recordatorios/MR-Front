@@ -1,48 +1,68 @@
 <div class="body">
-    <section class="filtrofechas">
-        <div class="year">
-            <button>Previo</button>
-            <h1 class="s-year">2024</h1>
-            <button>Siguiente</button>
-        </div>
-        <div class="month">
-            <button>Previo</button>
-            <h1 class="s-month">Julio</h1>
-            <button>Siguiente</button>
-        </div>
-    </section>
-    <section class="enlistado">
-        <div class="opciones">
-            <div class="filtro">
-                <h2>Mostrar por:</h2>
-                <select name="hola" id="1">
-                    <option value="estado">Todos</option>
-                    <option value="estado">Pendiente</option>
-                    <option value="estado">Pagada</option>
-                    <option value="estado">Vencida</option>
-                </select>
-            </div>
-            <div class="registro">
-                <button>Registrar Deuda</button>
-            </div>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>N° Documento</th>
-                    <th>Empresa</th>
-                    <th>Total</th>
-                    <th>Fecha Vencimiento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>123123</td>
-                    <td>Sunat</td>
-                    <td>S/.2</td>
-                    <td>ayer</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+  <section class="filtrofechas">
+    <button (click)="prevMonth()">Previo</button>
+    <h1 class="s-date">{{ currentMonthName }}, {{ currentYear }}</h1>
+    <button (click)="nextMonth()">Siguiente</button>
+  </section>
+
+  <section class="leyenda">
+    <h3>Leyenda de Estados:</h3>
+    <ul>
+      <li class="highlight deuda-semana">Próxima</li>
+      <li class="highlight deuda-vencida">Vencidas</li>
+      <li class="highlight deuda-pagada">Pagadas</li>
+      <li class="highlight deuda-proxima">Pendiente</li>
+    </ul>
+  </section>
+
+  <div class="search-container">
+    <input type="text" placeholder="Ingresar número de documento" [(ngModel)]="searchTerm" />
+    <button (click)="searchByDocument()">Buscar</button>
+  </div>
+
+  <section class="enlistado">
+    <div class="opciones">
+      <div class="filtro">
+        <h2>Mostrar por:</h2>
+        <select name="filtro" id="filtro" [(ngModel)]="filtroEstado" (ngModelChange)="applyFilter()">
+          <option value="Todos">Todos</option>
+          <option value="proxima">Próxima</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="pagada">Pagada</option>
+          <option value="vencida">Vencida</option>
+        </select>
+      </div>
+      <div class="registro">
+        <button mat-raised-button color="primary" (click)="openDebtModal()">Registrar Deuda</button>
+        <button mat-raised-button color="primary" (click)="openScheduleModal()">Registrar Cronograma</button>
+      </div>
+    </div>
+    <table class="centered-table">
+      <thead>
+      <tr>
+        <th>N° Documento</th>
+        <th>Empresa</th>
+        <th>Total</th>
+        <th>Fecha Vencimiento</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let deuda of filteredDebts">
+        <td>{{ deuda.numeroDocumento }}</td>
+        <td>{{ deuda.empresa }}</td>
+        <td>{{ formatCurrency(deuda.montoTotal) }}</td>
+        <td [ngClass]="getDebtClass(deuda)">{{ deuda.fechaVencimiento }}</td>
+        <td>
+          <ng-container *ngIf="deuda.estado === 'pagada'; else notPaid">
+            <img src="../../../assets/pagado.png" alt="Deuda pagada" title="Deuda pagada!" class="icon-pagado">
+          </ng-container>
+          <ng-template #notPaid>
+            <img src="../../../assets/pagar.png" alt="Pagar deuda" title="Pagar deuda" class="icon-pagar" (click)="openConfirmDialog(deuda)">
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
 </div>
