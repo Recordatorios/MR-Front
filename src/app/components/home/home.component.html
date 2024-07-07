@@ -5,16 +5,6 @@
     <button (click)="nextMonth()">Siguiente</button>
   </section>
 
-  <section class="leyenda">
-    <h3>Leyenda de Estados:</h3>
-    <ul>
-      <li class="highlight deuda-semana">Próxima</li>
-      <li class="highlight deuda-vencida">Vencidas</li>
-      <li class="highlight deuda-pagada">Pagadas</li>
-      <li class="highlight deuda-proxima">Pendiente</li>
-    </ul>
-  </section>
-
   <div class="search-container">
     <input type="text" placeholder="Ingresar número de documento" [(ngModel)]="searchTerm" />
     <button (click)="searchByDocument()">Buscar</button>
@@ -37,32 +27,66 @@
         <button mat-raised-button color="primary" (click)="openScheduleModal()">Registrar Cronograma</button>
       </div>
     </div>
-    <table class="centered-table">
-      <thead>
-      <tr>
-        <th>N° Documento</th>
-        <th>Empresa</th>
-        <th>Total</th>
-        <th>Fecha Vencimiento</th>
-        <th>Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let deuda of filteredDebts">
-        <td>{{ deuda.numeroDocumento }}</td>
-        <td>{{ deuda.empresa }}</td>
-        <td>{{ formatCurrency(deuda.montoTotal) }}</td>
-        <td [ngClass]="getDebtClass(deuda)">{{ deuda.fechaVencimiento }}</td>
-        <td>
-          <ng-container *ngIf="deuda.estado === 'pagada'; else notPaid">
-            <img src="../../../assets/pagado.png" alt="Deuda pagada" title="Deuda pagada!" class="icon-pagado">
-          </ng-container>
-          <ng-template #notPaid>
-            <img src="../../../assets/pagar.png" alt="Pagar deuda" title="Pagar deuda" class="icon-pagar" (click)="openConfirmDialog(deuda)">
-          </ng-template>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+
+    <div *ngIf="paginatedDebts.length > 0; else noDebts">
+      <table class="centered-table">
+        <thead>
+        <tr>
+          <th>N° Documento</th>
+          <th>Empresa</th>
+          <th>Total</th>
+          <th>Fecha Vencimiento</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let deuda of paginatedDebts">
+          <td>{{ deuda.numeroDocumento }}</td>
+          <td>{{ deuda.empresa }}</td>
+          <td>{{ formatCurrency(deuda.montoTotal) }}</td>
+          <td [ngClass]="getDebtClass(deuda)">{{ deuda.fechaVencimiento }}</td>
+          <td>
+            <ng-container *ngIf="deuda.estado === 'pagada'; else notPaid">
+              <img src="../../../assets/pagado.png" alt="Deuda pagada" title="Deuda pagada!" class="icon-pagado">
+            </ng-container>
+            <ng-template #notPaid>
+              <img src="../../../assets/pagar.png" alt="Pagar deuda" title="Pagar deuda" class="icon-pagar" (click)="openConfirmDialog(deuda)">
+            </ng-template>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-controls">
+        <button (click)="setPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button (click)="setPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
+      </div>
+
+    </div>
+
+    <ng-template #noDebts>
+      <div class="no-debts-container">
+        <p>Sin deudas este mes.</p>
+        <img src="../../../assets/sindeuda.png" alt="Sin deudas" class="no-debts-image">
+        <p>Prueba ingresando una.</p>
+      </div>
+    </ng-template>
+
+      <section class="leyenda">
+        <h3></h3>
+        <ul>
+          <li>Estados:</li>
+          <li class="highlight deuda-semana">Próxima</li>
+          <li class="highlight deuda-vencida">Vencidas</li>
+          <li class="highlight deuda-pagada">Pagadas</li>
+          <li class="highlight deuda-proxima">Pendiente</li>
+        </ul>
+      </section>
+
+
+
+
   </section>
+
 </div>

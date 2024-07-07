@@ -12,7 +12,6 @@
   margin-bottom: 20px;
 }
 
-
 .s-date {
   font-size: 1.5em;
   margin: 0 15px;
@@ -28,7 +27,6 @@
 .filtro {
   display: flex;
   flex-direction: column;
-
 }
 
 button {
@@ -69,6 +67,7 @@ select {
 .leyenda {
   margin-bottom: 20px;
   text-align: center;
+  margin-top: 50px;
 }
 
 .leyenda h3 {
@@ -79,7 +78,6 @@ select {
   list-style-type: none;
   padding: 0;
   display: flex;
-  justify-content: center;
 }
 
 .leyenda li {
@@ -223,4 +221,58 @@ button.mat-raised-button {
 
 .search-container button:focus {
   outline: none;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #0055a5;
+}
+
+.pagination-controls span {
+  font-size: 1.2em;
+  margin: 0 10px;
+}
+
+.no-debts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 150px;
+}
+
+.no-debts-container p {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.no-debts-container .no-debts-image {
+  width: 100px; /* Ajustar el tamaño de la imagen */
+  height: auto;
+
 }

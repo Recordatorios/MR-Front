@@ -24,6 +24,10 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 export class HomeComponent implements OnInit {
   debts: Deuda[] = [];
   filteredDebts: Deuda[] = [];
+  paginatedDebts: Deuda[] = [];
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
   currentMonth: number;
   currentYear: number;
   filtroEstado: string = 'Todos';
@@ -38,20 +42,25 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadDebts();
   }
-
   loadDebts() {
+    this.debts = [];  // Limpiar la lista de deudas antes de cargar las nuevas
+    this.filteredDebts = [];  // Limpiar la lista de deudas filtradas
+    this.paginatedDebts = [];  // Limpiar la lista de deudas paginadas
     this.authService.getDebtsByMonthAndYear(this.currentMonth, this.currentYear).subscribe(response => {
       this.debts = response.sort((a: Deuda, b: Deuda) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
       this.applyFilter();
     }, error => {
       console.error('Error loading debts', error);
+      this.applyFilter(); // Asegurarse de aplicar el filtro incluso si hay un error
     });
   }
 
   applyFilter() {
     const today = new Date();
-    const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-    const endOfWeek = new Date(today.setDate(startOfWeek.getDate() + 6));
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
 
     let filtered = this.debts;
 
@@ -75,22 +84,37 @@ export class HomeComponent implements OnInit {
     }
 
     this.filteredDebts = filtered.sort((a, b) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
+    this.totalPages = Math.ceil(this.filteredDebts.length / this.pageSize);
+    this.setPage(this.currentPage); // Mantener la página actual al aplicar el filtro
+  }
+
+
+  setPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    const startIndex = (page - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.filteredDebts.length);
+    this.paginatedDebts = this.filteredDebts.slice(startIndex, endIndex);
   }
 
   searchByDocument() {
-    const matchingDebt = this.debts.find(debt => debt.numeroDocumento.includes(this.searchTerm));
-    if (matchingDebt) {
-      const dueDate = new Date(matchingDebt.fechaVencimiento);
-      this.currentMonth = dueDate.getMonth() + 1;
-      this.currentYear = dueDate.getFullYear();
-      this.authService.getDebtsByMonthAndYear(this.currentMonth, this.currentYear).subscribe(response => {
-        this.debts = response.sort((a: Deuda, b: Deuda) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
-        this.applyFilter();
-      }, error => {
-        console.error('Error loading debts', error);
-      });
+    if (!this.searchTerm.trim()) {
+      alert('Ingrese un número de documento para buscar.');
+      this.loadDebts();
+      return;
+    }
+
+    const foundDebt = this.debts.find(debt => debt.numeroDocumento === this.searchTerm);
+    if (foundDebt) {
+      const dueDate = new Date(foundDebt.fechaVencimiento);
+      this.currentMonth = dueDate.getMonth() + 1; // Cambiar al mes de la deuda encontrada
+      this.currentYear = dueDate.getFullYear(); // Cambiar al año de la deuda encontrada
+      this.loadDebts();
+      this.setPage(1);
     } else {
-      this.applyFilter();
+      alert('No se encontró ninguna deuda con ese número de documento.');
+      this.searchTerm = ''; // Clear the search term
+      this.loadDebts(); // Reload debts for the current month and year
     }
   }
 
