@@ -19,14 +19,12 @@ export class DebtModalComponent implements OnInit {
     fechaVencimiento: '',
     estado: 'pendiente'  // Estado inicial
   };
-  minDate: string = '';
+  errorMessage: string = ''; // Para mostrar mensajes de error
 
   constructor(private authService: AuthService, public dialogRef: MatDialogRef<DebtModalComponent>) {}
 
   ngOnInit() {
-    // Establecer la fecha mínima en el formulario como la fecha actual
-    const today = new Date();
-    this.minDate = today.toISOString().split('T')[0];
+    // No se necesita establecer minDate ya que se permite seleccionar cualquier fecha
   }
 
   registerDebt() {
@@ -55,6 +53,7 @@ export class DebtModalComponent implements OnInit {
       this.dialogRef.close();
     }, error => {
       console.error('Error registrando deuda', error);
+      this.errorMessage = error.error.message; // Mostrar el mensaje de error del backend
     });
   }
 
