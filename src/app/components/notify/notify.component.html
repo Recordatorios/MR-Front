@@ -1,6 +1,12 @@
-<p>{{ data.message }}</p>
-<ul *ngIf="data.deudasHoy.length > 0">
+<div class="notify-container">
+  <div class="notify-header">
+    <p>{{ data.message }}</p>
+  </div>
+  <ul class="notify-list" *ngIf="data.deudasHoy.length > 0">
     <li *ngFor="let deuda of data.deudasHoy">
-        {{ deuda.numeroDocumento }} - {{ deuda.empresa }} - {{ deuda.montoTotal | currency:'S/' }}
+      <span>{{ deuda.numeroDocumento }}</span>
+      <span>{{ deuda.empresa }}</span>
+      <span class="currency">{{ deuda.montoTotal | currency:'S/' }}</span>
     </li>
-</ul>
+  </ul>
+</div>

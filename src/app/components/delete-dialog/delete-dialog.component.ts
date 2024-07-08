@@ -1,11 +1,16 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
 import { Deuda } from '../../models/debt.model';
 
 @Component({
   selector: 'app-delete-dialog',
   templateUrl: './delete-dialog.component.html',
   styleUrls: ['./delete-dialog.component.css'],
+  imports: [
+    MatDialogContent,
+    MatDialogTitle
+  ],
+  standalone: true
 })
 export class DeleteDialogComponent {
   constructor(

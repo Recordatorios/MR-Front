@@ -1,7 +1,7 @@
 import { Deuda } from './../models/debt.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import baserUrl from './helper';
 
 @Injectable({
@@ -47,17 +47,21 @@ export class AuthService {
     );
   }
 
-  getDebtsByMonthAndYear(month: number, year: number): Observable<any> {
-    return this.http.get(
+  getDebtsByMonthAndYear(month: number, year: number): Observable<Deuda[]> {
+    return this.http.get<Deuda[]>(
       `${baserUrl}/api/deudas/month/${month}/year/${year}`,
       this.getHeaders()
+    ).pipe(
+      map(response => response || []) // Asegurarse de que siempre se devuelva un array
     );
   }
 
-  searchDebtsByNumeroDocumento(numeroDocumento: string): Observable<any> {
-    return this.http.get(
+  searchDebtsByNumeroDocumento(numeroDocumento: string): Observable<Deuda[]> {
+    return this.http.get<Deuda[]>(
       `${baserUrl}/api/deudas/search?numeroDocumento=${numeroDocumento}`,
       this.getHeaders()
+    ).pipe(
+      map(response => response || []) // Asegurarse de que siempre se devuelva un array
     );
   }
 
@@ -79,7 +83,7 @@ export class AuthService {
   }
 
   deleteDebt(debtId: number): Observable<any> {
-    return this.http.delete(`${baserUrl}/api/deudas/${debtId}`);
+    return this.http.delete(`${baserUrl}/api/deudas/${debtId}`, this.getHeaders());
   }
 
   private getHeaders() {

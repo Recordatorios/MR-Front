@@ -17,25 +17,23 @@ export class DebtModalComponent implements OnInit {
     empresa: '',
     montoTotal: 0,
     fechaVencimiento: '',
-    estado: 'pendiente'  // Estado inicial
+    estado: 'pendiente'
   };
-  errorMessage: string = ''; // Para mostrar mensajes de error
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, public dialogRef: MatDialogRef<DebtModalComponent>) {}
 
   ngOnInit() {
-    // No se necesita establecer minDate ya que se permite seleccionar cualquier fecha
   }
 
   registerDebt() {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Asegurarse de que la comparación sea solo de fecha
+    today.setHours(0, 0, 0, 0);
     const dueDate = new Date(this.newDebt.fechaVencimiento);
     dueDate.setHours(0, 0, 0, 0);
 
     const oneWeekAhead = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-    // Ajustar el estado de la deuda basado en la fecha de vencimiento
     if (dueDate.getTime() === today.getTime() || (dueDate > today && dueDate <= oneWeekAhead)) {
       this.newDebt.estado = 'proxima';
     } else if (dueDate < today) {
@@ -44,7 +42,6 @@ export class DebtModalComponent implements OnInit {
       this.newDebt.estado = 'pendiente';
     }
 
-    // Transformar datos antes de enviar
     this.newDebt.empresa = this.newDebt.empresa.toUpperCase();
     this.newDebt.montoTotal = parseFloat(this.newDebt.montoTotal.toFixed(2));
 
@@ -53,7 +50,7 @@ export class DebtModalComponent implements OnInit {
       this.dialogRef.close();
     }, error => {
       console.error('Error registrando deuda', error);
-      this.errorMessage = error.error.message; // Mostrar el mensaje de error del backend
+      this.errorMessage = error.error.message;
     });
   }
 

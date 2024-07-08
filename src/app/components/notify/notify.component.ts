@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ CommonModule],
   templateUrl: './notify.component.html',
-  styleUrl: './notify.component.css',
+  styleUrls: ['./notify.component.css'],
 })
 export class NotifyComponent {
   constructor(

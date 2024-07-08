@@ -5,7 +5,7 @@ import { DebtModalComponent } from '../debt-modal/debt-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { Deuda } from '../../models/debt.model';
 import { FormsModule } from '@angular/forms';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Importar el componente de confirmación
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { NotifyComponent } from '../notify/notify.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
@@ -18,7 +18,7 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
     DebtModalComponent,
     CommonModule,
     FormsModule,
-    ConfirmDialogComponent, // Asegúrate de importar el componente de confirmación
+    ConfirmDialogComponent,
   ],
 })
 export class HomeComponent implements OnInit {
@@ -71,10 +71,10 @@ export class HomeComponent implements OnInit {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let filtered = this.debts;
+    let filtered = Array.isArray(this.debts) ? this.debts : [];
 
     if (this.filtroEstado !== 'Todos') {
-      filtered = this.debts.filter((debt) => debt.estado === this.filtroEstado);
+      filtered = filtered.filter((debt) => debt.estado === this.filtroEstado);
     }
 
     if (this.searchTerm) {
@@ -89,15 +89,15 @@ export class HomeComponent implements OnInit {
         new Date(b.fechaVencimiento).getTime()
     );
     this.totalPages = Math.ceil(this.filteredDebts.length / this.pageSize);
-    this.setPage(this.currentPage); // Mantener la página actual al aplicar el filtro
+    this.setPage(this.currentPage);
 
-    // Mostrar mensaje de error si no se encuentran deudas
     if (this.filteredDebts.length === 0) {
       this.errorMessage = 'No se encontraron deudas que cumplan con el filtro.';
     } else {
       this.errorMessage = '';
     }
   }
+
 
   setPage(page: number) {
     if (page < 1 || page > this.totalPages) return;
@@ -120,13 +120,15 @@ export class HomeComponent implements OnInit {
     this.authService.searchDebtsByNumeroDocumento(this.searchTerm).subscribe(
       (response) => {
         this.debts = response;
-        this.applyFilter();
+        this.filteredDebts = response;
+        this.totalPages = Math.ceil(this.filteredDebts.length / this.pageSize);
+        this.setPage(1); // Restablece la paginación a la primera página
       },
       (error) => {
         console.error('Error fetching debts by document number', error);
         alert('No se encontró ninguna deuda con ese número de documento.');
-        this.searchTerm = ''; // Clear the search term
-        this.loadDebts(); // Reload debts for the current month and year
+        this.searchTerm = '';
+        this.loadDebts();
       }
     );
   }
@@ -143,15 +145,15 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.loadDebts(); // Refresh the list after a new debt is registered
+      this.loadDebts();
     });
   }
 
   getDebtClass(debt: Deuda): string {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
+    today.setHours(0, 0, 0, 0);
     const dueDate = new Date(debt.fechaVencimiento);
-    dueDate.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
+    dueDate.setHours(0, 0, 0, 0);
 
     if (debt.estado === 'pagada') {
       return 'deuda-pagada';
