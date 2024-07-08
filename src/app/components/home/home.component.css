@@ -278,3 +278,13 @@ button.mat-raised-button {
   height: auto;
 
 }
+
+.icon-eliminar {
+  width: 24px; /* Tamaño del icono */
+  height: 24px;
+}
+
+.icon-eliminar {
+  cursor: pointer; /* Tipo de cursor pointer */
+}
+

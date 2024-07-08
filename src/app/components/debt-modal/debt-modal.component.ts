@@ -17,7 +17,7 @@ export class DebtModalComponent implements OnInit {
     empresa: '',
     montoTotal: 0,
     fechaVencimiento: '',
-    estado: 'pendiente'  // Estado inicial
+    estado: 'Pendiente'  // Estado inicial
   };
   minDate: string = '';
 
@@ -39,11 +39,11 @@ export class DebtModalComponent implements OnInit {
 
     // Ajustar el estado de la deuda basado en la fecha de vencimiento
     if (dueDate.getTime() === today.getTime() || (dueDate > today && dueDate <= oneWeekAhead)) {
-      this.newDebt.estado = 'proxima';
+      this.newDebt.estado = 'Próxima';
     } else if (dueDate < today) {
-      this.newDebt.estado = 'vencida';
+      this.newDebt.estado = 'Vencida';
     } else {
-      this.newDebt.estado = 'pendiente';
+      this.newDebt.estado = 'Pendiente';
     }
 
     // Transformar datos antes de enviar

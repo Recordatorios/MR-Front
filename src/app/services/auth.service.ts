@@ -49,6 +49,10 @@ export class AuthService {
     return this.http.patch<void>(`${baserUrl}/api/deudas/${debtId}/mark-as-paid`, {}, this.getHeaders());
   }
 
+  deleteDebt(debtId: number): Observable<any> {
+    return this.http.delete(`${baserUrl}/api/deudas/${debtId}`);
+  }
+
   private getHeaders() {
     return {
       headers: new HttpHeaders({
