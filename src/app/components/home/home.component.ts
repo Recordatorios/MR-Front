@@ -5,8 +5,9 @@ import { DebtModalComponent } from '../debt-modal/debt-modal.component';
 import { ScheduleModalComponent } from '../schedule-modal/schedule-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { Deuda } from '../../models/debt.model';
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Importar el componente de confirmación
+import { NotifyComponent } from '../notify/notify.component';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,8 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
     ScheduleModalComponent,
     CommonModule,
     FormsModule,
-    ConfirmDialogComponent  // Asegúrate de importar el componente de confirmación
-  ]
+    ConfirmDialogComponent, // Asegúrate de importar el componente de confirmación
+  ],
 })
 export class HomeComponent implements OnInit {
   debts: Deuda[] = [];
@@ -32,46 +33,62 @@ export class HomeComponent implements OnInit {
   currentYear: number;
   filtroEstado: string = 'Todos';
   searchTerm: string = '';
-  errorMessage: string = ''; // Nueva propiedad para el mensaje de error
+  errorMessage: string = '';
 
   constructor(private dialog: MatDialog, private authService: AuthService) {
     const date = new Date();
-    this.currentMonth = date.getMonth() + 1; // Enero es 0, así que sumamos 1
+    this.currentMonth = date.getMonth() + 1;
     this.currentYear = date.getFullYear();
   }
 
   ngOnInit() {
     this.loadDebts();
+    this.checkDebtsDueToday();
   }
 
   loadDebts() {
-    this.debts = [];  // Limpiar la lista de deudas antes de cargar las nuevas
-    this.filteredDebts = [];  // Limpiar la lista de deudas filtradas
-    this.paginatedDebts = [];  // Limpiar la lista de deudas paginadas
-    this.authService.getDebtsByMonthAndYear(this.currentMonth, this.currentYear).subscribe(response => {
-      this.debts = response.sort((a: Deuda, b: Deuda) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
-      this.applyFilter();
-    }, error => {
-      console.error('Error loading debts', error);
-      this.applyFilter(); // Asegurarse de aplicar el filtro incluso si hay un error
-    });
+    this.debts = [];
+    this.filteredDebts = [];
+    this.paginatedDebts = [];
+    this.authService
+      .getDebtsByMonthAndYear(this.currentMonth, this.currentYear)
+      .subscribe(
+        (response) => {
+          this.debts = response.sort(
+            (a: Deuda, b: Deuda) =>
+              new Date(a.fechaVencimiento).getTime() -
+              new Date(b.fechaVencimiento).getTime()
+          );
+          this.applyFilter();
+        },
+        (error) => {
+          console.error('Error loading debts', error);
+          this.applyFilter();
+        }
+      );
   }
 
   applyFilter() {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Asegurarse de comparar solo la fecha
+    today.setHours(0, 0, 0, 0);
 
     let filtered = this.debts;
 
     if (this.filtroEstado !== 'Todos') {
-      filtered = this.debts.filter(debt => debt.estado === this.filtroEstado);
+      filtered = this.debts.filter((debt) => debt.estado === this.filtroEstado);
     }
 
     if (this.searchTerm) {
-      filtered = filtered.filter(debt => debt.numeroDocumento.includes(this.searchTerm));
+      filtered = filtered.filter((debt) =>
+        debt.numeroDocumento.includes(this.searchTerm)
+      );
     }
 
-    this.filteredDebts = filtered.sort((a, b) => new Date(a.fechaVencimiento).getTime() - new Date(b.fechaVencimiento).getTime());
+    this.filteredDebts = filtered.sort(
+      (a, b) =>
+        new Date(a.fechaVencimiento).getTime() -
+        new Date(b.fechaVencimiento).getTime()
+    );
     this.totalPages = Math.ceil(this.filteredDebts.length / this.pageSize);
     this.setPage(this.currentPage); // Mantener la página actual al aplicar el filtro
 
@@ -87,7 +104,10 @@ export class HomeComponent implements OnInit {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.filteredDebts.length);
+    const endIndex = Math.min(
+      startIndex + this.pageSize,
+      this.filteredDebts.length
+    );
     this.paginatedDebts = this.filteredDebts.slice(startIndex, endIndex);
   }
 
@@ -98,18 +118,19 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.authService.searchDebtsByNumeroDocumento(this.searchTerm).subscribe(response => {
-      this.debts = response;
-      this.applyFilter();
-    }, error => {
-      console.error('Error fetching debts by document number', error);
-      alert('No se encontró ninguna deuda con ese número de documento.');
-      this.searchTerm = ''; // Clear the search term
-      this.loadDebts(); // Reload debts for the current month and year
-    });
+    this.authService.searchDebtsByNumeroDocumento(this.searchTerm).subscribe(
+      (response) => {
+        this.debts = response;
+        this.applyFilter();
+      },
+      (error) => {
+        console.error('Error fetching debts by document number', error);
+        alert('No se encontró ninguna deuda con ese número de documento.');
+        this.searchTerm = ''; // Clear the search term
+        this.loadDebts(); // Reload debts for the current month and year
+      }
+    );
   }
-
-
 
   formatCurrency(amount: number): string {
     return `S/ ${amount.toFixed(2)}`;
@@ -119,10 +140,10 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(DebtModalComponent, {
       width: '400px',
       enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms'
+      exitAnimationDuration: '250ms',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.loadDebts(); // Refresh the list after a new debt is registered
     });
   }
@@ -131,10 +152,10 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(ScheduleModalComponent, {
       width: '400px',
       enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms'
+      exitAnimationDuration: '250ms',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.loadDebts(); // Refresh the list after a new schedule is registered
     });
   }
@@ -180,8 +201,18 @@ export class HomeComponent implements OnInit {
 
   getMonthName(month: number): string {
     const monthNames = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
     ];
     return monthNames[month - 1];
   }
@@ -193,10 +224,10 @@ export class HomeComponent implements OnInit {
   openConfirmDialog(debt: Deuda): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
-      data: debt
+      data: debt,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirm') {
         this.markAsPaid(debt);
       }
@@ -204,15 +235,34 @@ export class HomeComponent implements OnInit {
   }
 
   markAsPaid(debt: Deuda): void {
-    this.authService.markAsPaid(debt.id).subscribe(response => {
-      this.loadDebts(); // Refresh the list after marking as paid
-    }, error => {
-      console.error('Error marking debt as paid', error);
-      if (error.status === 403) {
-        alert("No tienes permiso para realizar esta acción.");
-      } else {
-        alert("Ocurrió un error al intentar marcar la deuda como pagada.");
+    this.authService.markAsPaid(debt.id).subscribe(
+      (response) => {
+        this.loadDebts();
+      },
+      (error) => {
+        console.error('Error marking debt as paid', error);
+        if (error.status === 403) {
+          alert('No tienes permiso para realizar esta acción.');
+        } else {
+          alert('Ocurrió un error al intentar marcar la deuda como pagada.');
+        }
       }
-    });
+    );
+  }
+
+  checkDebtsDueToday() {
+    this.authService.alertDueToday().subscribe(
+      (response) => {
+        if (response.message.includes('Tienes deudas que vencen hoy')) {
+          this.dialog.open(NotifyComponent, {
+            data: { message: response.message, deudasHoy: response.deudasHoy },
+            width: '400px',
+          });
+        }
+      },
+      (error) => {
+        console.error('Error checking debts due today', error);
+      }
+    );
   }
 }

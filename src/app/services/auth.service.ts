@@ -1,3 +1,4 @@
+import { Deuda } from './../models/debt.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -39,26 +40,49 @@ export class AuthService {
   }
 
   registerSchedule(schedule: any): Observable<any> {
-    return this.http.post(`${baserUrl}/api/cronogramas-pago`, schedule, this.getHeaders());
+    return this.http.post(
+      `${baserUrl}/api/cronogramas-pago`,
+      schedule,
+      this.getHeaders()
+    );
   }
 
   getDebtsByMonthAndYear(month: number, year: number): Observable<any> {
-    return this.http.get(`${baserUrl}/api/deudas/month/${month}/year/${year}`, this.getHeaders());
+    return this.http.get(
+      `${baserUrl}/api/deudas/month/${month}/year/${year}`,
+      this.getHeaders()
+    );
   }
 
   searchDebtsByNumeroDocumento(numeroDocumento: string): Observable<any> {
-    return this.http.get(`${baserUrl}/api/deudas/search?numeroDocumento=${numeroDocumento}`, this.getHeaders());
+    return this.http.get(
+      `${baserUrl}/api/deudas/search?numeroDocumento=${numeroDocumento}`,
+      this.getHeaders()
+    );
   }
 
   markAsPaid(debtId: number): Observable<void> {
-    return this.http.patch<void>(`${baserUrl}/api/deudas/${debtId}/mark-as-paid`, {}, this.getHeaders());
+    return this.http.patch<void>(
+      `${baserUrl}/api/deudas/${debtId}/mark-as-paid`,
+      {},
+      this.getHeaders()
+    );
+  }
+
+  alertDueToday(): Observable<{ message: string; deudasHoy: Deuda[] }> {
+    return this.http.get<{ message: string; deudasHoy: Deuda[] }>(
+      `${baserUrl}/api/deudas/alertDueToday`,
+      {
+        headers: this.getHeaders().headers,
+      }
+    );
   }
 
   private getHeaders() {
     return {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${this.getToken()}`
-      })
+        Authorization: `Bearer ${this.getToken()}`,
+      }),
     };
   }
 }

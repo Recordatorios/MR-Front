@@ -113,14 +113,14 @@ select {
   color: white;
 }
 
-
 .centered-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 40px;
 }
 
-.centered-table th, .centered-table td {
+.centered-table th,
+.centered-table td {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -138,25 +138,29 @@ select {
 .centered-table td.deuda-pagada {
   color: green;
   background-color: white;
-  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000,
+    0.5px 0.5px 0 #000;
 }
 
 .centered-table td.deuda-vencida {
   color: red;
   background-color: white;
-  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000,
+    0.5px 0.5px 0 #000;
 }
 
 .centered-table td.deuda-proxima {
   color: yellow;
   background-color: white;
-  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000,
+    0.5px 0.5px 0 #000;
 }
 
 .centered-table td.deuda-pendiente {
   color: black;
   background-color: white;
-  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000,
+    0.5px 0.5px 0 #000;
 }
 
 .modal-container {
@@ -184,7 +188,8 @@ button.mat-raised-button {
   margin-right: 10px;
 }
 
-.icon-pagar, .icon-pagado {
+.icon-pagar,
+.icon-pagado {
   width: 24px; /* Tamaño del icono */
   height: 24px;
 }
@@ -274,7 +279,61 @@ button.mat-raised-button {
 }
 
 .no-debts-container .no-debts-image {
-  width: 100px; /* Ajustar el tamaño de la imagen */
+  width: 100px;
   height: auto;
+}
 
+@media (max-width: 768px) {
+  .filtrofechas {
+    flex-direction: column;
+  }
+
+  .opciones {
+    flex-direction: column;
+  }
+
+  .leyenda ul {
+    flex-direction: column;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-container input {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+  }
+
+  .pagination-controls button {
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .s-date {
+    font-size: 1.2em;
+  }
+
+  button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .search-container button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .pagination-controls span {
+    font-size: 1em;
+  }
+
+  .no-debts-container p {
+    font-size: 1.2em;
+  }
 }

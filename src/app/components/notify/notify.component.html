@@ -1,0 +1,6 @@
+<p>{{ data.message }}</p>
+<ul *ngIf="data.deudasHoy.length > 0">
+    <li *ngFor="let deuda of data.deudasHoy">
+        {{ deuda.numeroDocumento }} - {{ deuda.empresa }} - {{ deuda.montoTotal | currency:'S/' }}
+    </li>
+</ul>

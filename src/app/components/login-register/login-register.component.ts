@@ -100,7 +100,8 @@ export class LoginRegisterComponent {
         },
         (error) => {
           console.error('Error logging in', error);
-          this.loginErrorMessage = 'Correo o contraseña incorrectos, por favor intente nuevamente'
+          this.loginErrorMessage =
+            'Correo o contraseña incorrectos, por favor intente nuevamente';
         }
       );
     } else {
