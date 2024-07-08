@@ -78,6 +78,10 @@ export class AuthService {
     );
   }
 
+  deleteDebt(debtId: number): Observable<any> {
+    return this.http.delete(`${baserUrl}/api/deudas/${debtId}`);
+  }
+
   private getHeaders() {
     return {
       headers: new HttpHeaders({

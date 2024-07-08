@@ -1,0 +1,10 @@
+<div class="dialog-container">
+    <h1 mat-dialog-title>Eliminación</h1>
+    <div mat-dialog-content>
+        <p>¿Estás seguro de eliminar la deuda {{ data.empresa }}?</p>
+    </div>
+    <div class="-dialog-actions">
+        <button (click)="onCancel()">Cancelar</button>
+        <button (click)="onConfirm()">Eliminar</button>
+    </div>
+</div>

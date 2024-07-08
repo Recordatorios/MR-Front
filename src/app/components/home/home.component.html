@@ -30,29 +30,32 @@
     <div *ngIf="paginatedDebts.length > 0; else noDebts">
       <table class="centered-table">
         <thead>
-        <tr>
-          <th>N° Documento</th>
-          <th>Empresa</th>
-          <th>Total</th>
-          <th>Fecha Vencimiento</th>
-          <th>Acciones</th>
-        </tr>
+          <tr>
+            <th>N° Documento</th>
+            <th>Empresa</th>
+            <th>Total</th>
+            <th>Fecha Vencimiento</th>
+            <th>Acciones</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let deuda of paginatedDebts">
-          <td>{{ deuda.numeroDocumento }}</td>
-          <td>{{ deuda.empresa }}</td>
-          <td>{{ formatCurrency(deuda.montoTotal) }}</td>
-          <td [ngClass]="getDebtClass(deuda)">{{ deuda.fechaVencimiento }}</td>
-          <td>
-            <ng-container *ngIf="deuda.estado === 'pagada'; else notPaid">
-              <img src="../../../assets/pagado.png" alt="Deuda pagada" title="Deuda pagada!" class="icon-pagado">
-            </ng-container>
-            <ng-template #notPaid>
-              <img src="../../../assets/pagar.png" alt="Pagar deuda" title="Pagar deuda" class="icon-pagar" (click)="openConfirmDialog(deuda)">
-            </ng-template>
-          </td>
-        </tr>
+          <tr *ngFor="let deuda of paginatedDebts">
+            <td>{{ deuda.numeroDocumento }}</td>
+            <td>{{ deuda.empresa }}</td>
+            <td>{{ formatCurrency(deuda.montoTotal) }}</td>
+            <td [ngClass]="getDebtClass(deuda)">{{ deuda.fechaVencimiento }}</td>
+            <td>
+              <ng-container *ngIf="deuda.estado === 'pagada'; else notPaid">
+                <img src="../../../assets/pagado.png" alt="Deuda pagada" title="Deuda pagada!" class="icon-pagado">
+              </ng-container>
+              <ng-template #notPaid>
+                <img src="../../../assets/pagar.png" alt="Pagar deuda" title="Pagar deuda" class="icon-pagar"
+                  (click)="openConfirmDialog(deuda)">
+                <img src="../../../assets/eliminar.png" alt="Eliminar deuda" title="Eliminar deuda"
+                  class="icon-eliminar" (click)="openDeleteDialog(deuda)">
+              </ng-template>
+            </td>
+          </tr>
         </tbody>
       </table>
 

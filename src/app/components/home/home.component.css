@@ -283,6 +283,12 @@ button.mat-raised-button {
   height: auto;
 }
 
+.icon-eliminar {
+  width: 24px; /* Tamaño del icono */
+  height: 24px;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .filtrofechas {
     flex-direction: column;

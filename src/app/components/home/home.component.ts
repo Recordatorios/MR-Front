@@ -7,6 +7,7 @@ import { Deuda } from '../../models/debt.model';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Importar el componente de confirmación
 import { NotifyComponent } from '../notify/notify.component';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -248,6 +249,31 @@ export class HomeComponent implements OnInit {
       },
       (error) => {
         console.error('Error checking debts due today', error);
+      }
+    );
+  }
+
+  openDeleteDialog(debt: Deuda): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: debt,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        this.deleteDebt(debt);
+      }
+    });
+  }
+
+  deleteDebt(debt: Deuda): void {
+    this.authService.deleteDebt(debt.id).subscribe(
+      (response) => {
+        this.loadDebts();
+      },
+      (error) => {
+        console.error('Error deleting debt', error);
+        alert('Ocurrió un error al intentar eliminar la deuda.');
       }
     );
   }
