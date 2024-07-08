@@ -13,10 +13,6 @@ export class AuthService {
     return this.http.post(`${baserUrl}/api/deudas`, debt);
   }
 
-  registerSchedule(schedule: any): Observable<any> {
-    return this.http.post(`${baserUrl}/api/cronogramas-pago`, schedule);
-  }
-
   getAllDebts(): Observable<any> {
     return this.http.get(`${baserUrl}/api/deudas`);
   }

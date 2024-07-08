@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { DebtModalComponent } from '../debt-modal/debt-modal.component';
-import { ScheduleModalComponent } from '../schedule-modal/schedule-modal.component';
 import { AuthService } from '../../services/auth.service';
 import { Deuda } from '../../models/debt.model';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +15,6 @@ import { NotifyComponent } from '../notify/notify.component';
   styleUrls: ['./home.component.css'],
   imports: [
     DebtModalComponent,
-    ScheduleModalComponent,
     CommonModule,
     FormsModule,
     ConfirmDialogComponent, // Asegúrate de importar el componente de confirmación
@@ -145,18 +143,6 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.loadDebts(); // Refresh the list after a new debt is registered
-    });
-  }
-
-  openScheduleModal(): void {
-    const dialogRef = this.dialog.open(ScheduleModalComponent, {
-      width: '400px',
-      enterAnimationDuration: '250ms',
-      exitAnimationDuration: '250ms',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.loadDebts(); // Refresh the list after a new schedule is registered
     });
   }
 
