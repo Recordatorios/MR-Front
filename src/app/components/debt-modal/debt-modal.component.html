@@ -1,29 +1,81 @@
 <div class="modal-container">
   <h2>Registrar Deuda</h2>
-  <form (ngSubmit)="registerDebt()">
+  <form (ngSubmit)="registerDebt(debtForm)" #debtForm="ngForm">
     <div class="form-group">
       <label for="documento">N° de recibo:</label>
-      <input type="text" id="documento" [(ngModel)]="newDebt.numeroDocumento" name="documento">
+      <input
+        type="text"
+        id="documento"
+        [(ngModel)]="newDebt.numeroDocumento"
+        name="documento"
+        required
+        #documento="ngModel"
+      />
+      <div *ngIf="documento.invalid && documento.touched" class="error-message">
+        Número de recibo es requerido.
+      </div>
     </div>
 
     <div class="form-group">
       <label for="empresa">Empresa:</label>
-      <input type="text" id="empresa" [(ngModel)]="newDebt.empresa" name="empresa">
+      <input
+        type="text"
+        id="empresa"
+        [(ngModel)]="newDebt.empresa"
+        name="empresa"
+        required
+        #empresa="ngModel"
+      />
+      <div *ngIf="empresa.invalid && empresa.touched" class="error-message">
+        El nombre de la empresa es requerido.
+      </div>
     </div>
 
     <div class="form-group">
       <label for="monto">Monto:</label>
-      <input type="number" id="monto" [(ngModel)]="newDebt.montoTotal" name="monto" step="0.01">
+      <input
+        type="number"
+        id="monto"
+        [(ngModel)]="newDebt.montoTotal"
+        name="monto"
+        step="0.01"
+        required
+        min="0"
+        #monto="ngModel"
+        pattern="^\d+(\.\d{1,2})?$"
+        (keypress)="preventInvalidInput($event)"
+      />
+      <div *ngIf="monto.invalid && monto.touched" class="error-message">
+        <span *ngIf="monto.errors?.['required']">El monto es requerido.</span>
+        <span *ngIf="monto.errors?.['min']">El monto no puede ser negativo.</span>
+        <span *ngIf="monto.errors?.['pattern']">El monto debe ser un número válido.</span>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="fechaVencimiento">Fecha de vencimiento:</label>
-      <input type="date" id="fechaVencimiento" [(ngModel)]="newDebt.fechaVencimiento" name="fechaVencimiento">
+      <input
+        type="date"
+        id="fechaVencimiento"
+        [(ngModel)]="newDebt.fechaVencimiento"
+        name="fechaVencimiento"
+        required
+        #fechaVencimiento="ngModel"
+      />
+      <div *ngIf="fechaVencimiento.invalid && fechaVencimiento.touched" class="error-message">
+        Fecha de vencimiento es requerida.
+      </div>
     </div>
 
     <div class="form-group">
       <label for="estado">Estado:</label>
-      <input type="text" id="estado" [(ngModel)]="newDebt.estado" name="estado" readonly>
+      <input
+        type="text"
+        id="estado"
+        [(ngModel)]="newDebt.estado"
+        name="estado"
+        readonly
+      />
     </div>
 
     <!-- Mostrar mensaje de error si existe -->
@@ -32,7 +84,7 @@
     </div>
 
     <div class="form-group">
-      <button type="submit">Registrar</button>
+      <button type="submit" [disabled]="debtForm.invalid">Registrar</button>
       <button type="button" (click)="cancel()">Cancelar</button>
     </div>
   </form>

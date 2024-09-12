@@ -21,6 +21,7 @@ export class LoginRegisterComponent {
   registerForm: FormGroup;
   loginForm: FormGroup;
   loginErrorMessage: string = '';
+  registerErrorMessage: string = ''; // Nueva propiedad para manejar el mensaje de error en el registro
 
   constructor(
     private fb: FormBuilder,
@@ -65,21 +66,27 @@ export class LoginRegisterComponent {
       this.apiService.register(user).subscribe(
         (response) => {
           if (response && response.id) {
-            alert('User registered successfully');
+            alert('Usuario registrado exitosamente');
             this.resetForms();
             this.router
               .navigate([''])
-              .catch((err) => console.error('Navigation error:', err));
+              .catch((err) => console.error('Error al navegar:', err));
           } else {
-            console.log('No userId in response', response);
+            console.log('No se recibió ID de usuario en la respuesta', response);
           }
         },
         (error) => {
-          console.error('Error registering user', error);
+          console.error('Error al registrar usuario', error);
+          if (error.status === 409) { 
+            alert('El correo ya está registrado. Por favor, usa otro correo electrónico.');
+           
+          } else {
+            this.registerErrorMessage = 'Hubo un problema al registrarte. Por favor, intenta de nuevo.';
+          }
         }
       );
     } else {
-      console.log('Form is invalid', this.registerForm.errors);
+      console.log('El formulario no es válido', this.registerForm.errors);
     }
   }
 
@@ -95,17 +102,17 @@ export class LoginRegisterComponent {
           localStorage.setItem('token', response.token);
           this.router
             .navigate(['home'])
-            .catch((err) => console.error('Navigation error:', err));
+            .catch((err) => console.error('Error al navegar:', err));
           this.loginErrorMessage = '';
         },
         (error) => {
-          console.error('Error logging in', error);
+          console.error('Error al iniciar sesión', error);
           this.loginErrorMessage =
             'Correo o contraseña incorrectos, por favor intente nuevamente';
         }
       );
     } else {
-      console.log('Form is invalid', this.loginForm.errors);
+      console.log('El formulario no es válido', this.loginForm.errors);
     }
   }
 

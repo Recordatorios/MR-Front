@@ -7,14 +7,14 @@
           <input type="email" formControlName="email" placeholder="Correo Electrónico" required>
         </div>
         <div *ngIf="isInvalid('email', loginForm)" class="error-message">
-          Debes colocar un correo en formato válido
+          Debes colocar un correo en formato válido.
         </div>
         <div class="formpassw">
           <h1>Contraseña</h1>
           <input type="password" formControlName="password" placeholder="Contraseña" required>
         </div>
         <div *ngIf="isInvalid('password', loginForm)" class="error-message">
-          Debes colocar una contraseña
+          Debes colocar una contraseña.
         </div>
       </div>
       <div class="buttonmenu">
@@ -25,35 +25,39 @@
       </div>
     </form>
   </section>
+
   <section class="register">
     <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
       <div class="form">
         <h2>Nombre</h2>
         <div *ngIf="isInvalid('name', registerForm)" class="error-message">
-          Debe haber un Nombre
+          Debe haber un nombre.
         </div>
-        <input type="text" formControlName="name" placeholder="" [ngClass]="{'invalid': isInvalid('name', registerForm)}">
+        <input type="text" formControlName="name" placeholder="Nombre Completo" [ngClass]="{'invalid': isInvalid('name', registerForm)}">
 
         <h2>Correo</h2>
         <div *ngIf="isInvalid('email', registerForm)" class="error-message">
-          Debes colocar un correo en formato válido
+          Debes colocar un correo en formato válido.
         </div>
-        <input type="email" formControlName="email" placeholder="" [ngClass]="{'invalid': isInvalid('email', registerForm)}">
+        <input type="email" formControlName="email" placeholder="Correo Electrónico" [ngClass]="{'invalid': isInvalid('email', registerForm)}">
 
         <h2>Contraseña</h2>
         <div *ngIf="isInvalid('password', registerForm)" class="error-message">
-          Debes colocar una contraseña
+          Debes colocar una contraseña.
         </div>
-        <input type="password" formControlName="password" placeholder="" [ngClass]="{'invalid': isInvalid('password', registerForm)}">
+        <input type="password" formControlName="password" placeholder="Contraseña" [ngClass]="{'invalid': isInvalid('password', registerForm)}">
 
         <h2>Confirmar Contraseña</h2>
         <div *ngIf="isInvalid('confirmPassword', registerForm)" class="error-message">
-          Las contraseñas no coinciden
+          Las contraseñas no coinciden.
         </div>
-        <input type="password" formControlName="confirmPassword" placeholder="" [ngClass]="{'invalid': isInvalid('confirmPassword', registerForm)}">
+        <input type="password" formControlName="confirmPassword" placeholder="Confirmar Contraseña" [ngClass]="{'invalid': isInvalid('confirmPassword', registerForm)}">
       </div>
       <div class="buttonmenu">
         <button class="crear" type="submit" [disabled]="registerForm.invalid">Registrar</button>
+      </div>
+      <div *ngIf="registerErrorMessage" class="error-message">
+        {{ registerErrorMessage }}
       </div>
     </form>
   </section>
