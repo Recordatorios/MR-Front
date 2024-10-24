@@ -1,152 +1,126 @@
 .body {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
   justify-items: center;
   align-items: center;
-  min-height: 70vh;
+  min-height: 80vh;
+  padding: 20px; /* Ajusta el padding general */
+  padding-top: 10px; /* Reduce el espacio superior */
+  background-color: #f0f4f8;
+  font-family: 'Arial', sans-serif;
 }
+
 
 section {
-  display: grid;
-  justify-items: center;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
 }
 
-.menu-login {
-  border-radius: 20px;
-  border-color: white;
+label {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: 700; /* Aquí añadimos la negrita */
 }
 
-.llenar {
-  font-size: 20px;
-}
-
-h1 {
-  font-weight: 500;
-  margin-left: 10px;
-}
 
 input {
-  margin: 10px;
-  width: 300px;
-  height: 30px;
-  font-size: 20px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px; /* Aumenté el espacio entre los inputs */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-button {
-  background-color: #003366;
-  color: white;
-  border-radius: 50px;
-  border: none;
-  font-size: 25px;
-  padding: 10px 20px;
-  cursor: pointer;
-  text-align: center;
-  font-weight: bold;
-}
-
-button:hover {
-  transform: scale(1.2);
-  transition: 0.3s;
-}
-
-.forgotpsw {
-  margin: 10px;
-}
-
-.forgotpsw a {
-  color: black;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.forgotpsw a:hover {
-  color: #d03733;
-  transition: 0.3s;
-}
-
-.buttonmenu {
-  display: grid;
-  justify-items: center;
+input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
 }
 
 .invalid {
-  border: 1px solid red;
+  border-color: red !important;
 }
 
 .error-message {
-  color: red;
-  font-size: 0.8em;
-  margin-bottom: -5px;
+  color: #e74c3c;
+  background-color: #fceae9;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* Media Queries */
-@media only screen and (min-width: 2560px) {
-  .body {
-    grid-template-columns: 1fr 1fr;
-    padding: 40px;
-  }
+.button-container {
+  text-align: center;
+}
 
-  input {
-    width: 400px;
-    height: 40px;
-    font-size: 24px;
-  }
+button {
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 250px;
+}
 
-  button {
-    font-size: 30px;
-    padding: 15px 30px;
-  }
+.btn-primary {
+  background-color: #0066cc;
+  color: white;
+}
 
-  .forgotpsw a {
-    font-size: 18px;
-  }
+.btn-primary:hover {
+  background-color: #005bb5;
+  transform: scale(1.1);
+}
+
+.btn-secondary {
+  background-color: #00cc66;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #00994d;
+  transform: scale(1.1);
 }
 
 @media only screen and (max-width: 1024px) {
   .body {
     grid-template-columns: 1fr;
     padding: 20px;
+    gap: 20px;
   }
 
-  input {
-    width: 250px;
-    height: 25px;
-    font-size: 18px;
-  }
-
-  button {
-    font-size: 20px;
-    padding: 10px 15px;
-  }
-
-  .forgotpsw a {
-    font-size: 14px;
+  section {
+    max-width: 90%;
   }
 }
 
 @media only screen and (max-width: 600px) {
   .body {
-    grid-template-columns: 1fr;
     padding: 10px;
   }
 
   input {
-    width: 200px;
-    height: 25px;
-    font-size: 16px;
+    padding: 8px;
+    font-size: 0.9rem;
   }
 
   button {
-    font-size: 18px;
-    padding: 8px 12px;
+    font-size: 0.9rem;
+    padding: 10px;
   }
 
-  .forgotpsw a {
-    font-size: 12px;
-  }
-
-  h1 {
-    font-size: 18px;
-    margin-left: 5px;
+  label {
+    font-size: 1rem;
   }
 }
