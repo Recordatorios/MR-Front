@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,10 +23,14 @@ export class DebtModalComponent implements OnInit {
 
   constructor(private authService: AuthService, public dialogRef: MatDialogRef<DebtModalComponent>) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  registerDebt() {
+  registerDebt(debtForm: NgForm) {
+    if (debtForm.invalid) {
+      this.errorMessage = 'Por favor, completa todos los campos correctamente.';
+      return;
+    }
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const dueDate = new Date(this.newDebt.fechaVencimiento);
@@ -45,13 +49,24 @@ export class DebtModalComponent implements OnInit {
     this.newDebt.empresa = this.newDebt.empresa.toUpperCase();
     this.newDebt.montoTotal = parseFloat(this.newDebt.montoTotal.toFixed(2));
 
-    this.authService.registerDebt(this.newDebt).subscribe(response => {
-      console.log('Deuda registrada', response);
-      this.dialogRef.close();
-    }, error => {
-      console.error('Error registrando deuda', error);
-      this.errorMessage = error.error.message;
-    });
+    this.authService.registerDebt(this.newDebt).subscribe(
+      response => {
+        console.log('Deuda registrada', response);
+        this.dialogRef.close();
+      },
+      error => {
+        console.error('Error registrando deuda', error);
+        this.errorMessage = error.error.message || 'Error registrando la deuda.';
+      }
+    );
+  }
+
+  preventInvalidInput(event: KeyboardEvent) {
+    const pattern = /[0-9.]/;
+    const inputChar = String.fromCharCode(event.keyCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
 
   cancel() {
