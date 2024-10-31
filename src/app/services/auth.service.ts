@@ -1,7 +1,7 @@
 import { Deuda } from './../models/debt.model';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {map, Observable} from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {catchError, map, Observable, throwError} from 'rxjs';
 import baserUrl from './helper';
 
 @Injectable({
@@ -15,7 +15,11 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${baserUrl}/api/auth/login`, credentials);
+    return this.http.post(`${baserUrl}/api/auth/login`, credentials).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
   }
 
   isLoggedIn(): boolean {

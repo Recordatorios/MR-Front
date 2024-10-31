@@ -77,9 +77,9 @@ export class LoginRegisterComponent {
         },
         (error) => {
           console.error('Error al registrar usuario', error);
-          if (error.status === 409) { 
+          if (error.status === 409) {
             alert('El correo ya está registrado. Por favor, usa otro correo electrónico.');
-           
+
           } else {
             this.registerErrorMessage = 'Hubo un problema al registrarte. Por favor, intenta de nuevo.';
           }
@@ -100,15 +100,16 @@ export class LoginRegisterComponent {
       this.apiService.login(credentials).subscribe(
         (response) => {
           localStorage.setItem('token', response.token);
-          this.router
-            .navigate(['home'])
-            .catch((err) => console.error('Error al navegar:', err));
+          this.router.navigate(['home']).catch((err) => console.error('Error al navegar:', err));
           this.loginErrorMessage = '';
         },
         (error) => {
           console.error('Error al iniciar sesión', error);
-          this.loginErrorMessage =
-            'Correo o contraseña incorrectos, por favor intente nuevamente';
+          if (error.status === 404) {
+            this.loginErrorMessage = 'El correo electrónico no está registrado. Por favor, verifica o regístrate.';
+          } else {
+            this.loginErrorMessage = 'Correo o contraseña incorrectos, por favor intente nuevamente';
+          }
         }
       );
     } else {
