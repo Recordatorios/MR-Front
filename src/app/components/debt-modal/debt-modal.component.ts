@@ -20,10 +20,14 @@ export class DebtModalComponent implements OnInit {
     estado: 'pendiente'
   };
   errorMessage: string = '';
+  minDate: string = '';
 
   constructor(private authService: AuthService, public dialogRef: MatDialogRef<DebtModalComponent>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+  }
 
   registerDebt(debtForm: NgForm) {
     if (debtForm.invalid) {
